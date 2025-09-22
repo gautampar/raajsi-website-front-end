@@ -1,11 +1,47 @@
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+import api from "./api";
 
-export async function loginApi(email: string, password: string) {
-  const res = await fetch(`${BASE_URL}/auth`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
 
-  return res.json();
-}
+export const login = async (email, password) => {
+  try {
+    const response = await api.post("user/signin", { email, password });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const getAllCategories = async () => {
+  try {
+    const response = await api.get("product/category/all");
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const getProductsByCategory = async (slug) => {
+  try {
+    const response = await api.get(`/product/category/${slug}`);
+    return response.data; // array of products
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const getFaqs = async () => {
+    try {
+      const response = await api.get("faq/all");
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  };
+
+export const getAllProducts = async () => {
+  try {
+    const response = await api.get("product/all");
+    return response.data; 
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};

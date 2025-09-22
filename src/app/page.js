@@ -5,8 +5,76 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import ProductCard from "../components/ProductCard";
+import { toast } from "react-toastify";
+import { getAllCategories, getAllProducts, getFaqs, getProductsByCategory } from "@/lib/api/auth";
 
 export default function HomePage({ onAddToCart }) {
+  const [products, setProducts] = useState([]);
+  const [faqs, setFaqs] = useState([]);
+  const [activeSlug, setActiveSlug] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getAllCategories();
+        setCategories(data?.data?.categories || []);
+
+        // Auto-select first category
+        if (data.length > 0) {
+          handleCategoryClick(data?.data?.categories[0].slug);
+        }
+
+        toast.success("Categories loaded ✅");
+      } catch (err) {
+        console.error(err);
+        toast.error(err?.message || "Failed to load categories ❌");
+      }
+    };
+
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProducts();
+        setProducts(data);
+        toast.success("Products loaded successfully ✅");
+      } catch (err) {
+        console.error(err);
+        toast.error(err?.message || "Failed to load products ❌");
+      }
+    };
+    const fetchFaqs = async () => {
+      try {
+        const data = await getFaqs();
+        setFaqs(data?.data?.FAQs || []);
+        toast.success("FAQs loaded successfully ✅");
+      } catch (err) {
+        console.error(err);
+        toast.error(err?.message || "Failed to load FAQs ❌");
+      } finally {
+      }
+    };
+
+
+    fetchFaqs();
+    fetchProducts();
+    fetchCategories();
+  }, []);
+
+  const handleCategoryClick = async (slug) => {
+    setActiveSlug(slug);
+
+    try {
+      const data = await getProductsByCategory(slug);
+      setProducts(data);
+      toast.success(`Products for ${slug} loaded ✅`);
+    } catch (err) {
+      console.error(err);
+      toast.error(err?.message || `Failed to load products for ${slug} ❌`);
+    }
+  };
+
+
 
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -243,7 +311,7 @@ export default function HomePage({ onAddToCart }) {
     setCardStartIndex((prev) => Math.min(sectionCards.length - 2, prev + 2)); // Move by 2 cards at a time within current section
     setMobileCardIndex((prev) => Math.min(sectionCards.length - 1, prev + 1)); // Move by 1 card for mobile
   };
-  const handleTabClick = (idx) => {
+  const handleTabClick = (idx, slug) => {
     setSectionIdx(idx);
     // Reset card positions when switching tabs
     setCardStartIndex(0);
@@ -1698,20 +1766,20 @@ export default function HomePage({ onAddToCart }) {
                 scrollbarWidth: "none",
                 msOverflowStyle: "none",
               }}
-              onTouchStart={(e) => {
-                const touch = e.touches[0];
-                e.currentTarget.startX = touch.clientX;
-                e.currentTarget.scrollLeft = e.currentTarget.scrollLeft;
-              }}
-              onTouchMove={(e) => {
-                if (!e.currentTarget.startX) return;
-                const touch = e.touches[0];
-                const diff = e.currentTarget.startX - touch.clientX;
-                e.currentTarget.scrollLeft = e.currentTarget.scrollLeft + diff;
-                e.currentTarget.startX = touch.clientX;
-              }}
+            // onTouchStart={(e) => {
+            //   const touch = e.touches[0];
+            //   e.currentTarget.startX = touch.clientX;
+            //   e.currentTarget.scrollLeft = e.currentTarget.scrollLeft;
+            // }}
+            // onTouchMove={(e) => {
+            //   if (!e.currentTarget.startX) return;
+            //   const touch = e.touches[0];
+            //   const diff = e.currentTarget.startX - touch.clientX;
+            //   e.currentTarget.scrollLeft = e.currentTarget.scrollLeft + diff;
+            //   e.currentTarget.startX = touch.clientX;
+            // }}
             >
-              {SECTIONS.map((s, idx) => (
+              {categories.map((s, idx) => (
                 <button
                   key={s.key}
                   className="me-2 tab-button"
@@ -1728,9 +1796,9 @@ export default function HomePage({ onAddToCart }) {
                     whiteSpace: "nowrap",
                     flexShrink: 0,
                   }}
-                  onClick={() => handleTabClick(idx)}
+                  onClick={() => handleCategoryClick(s.slug)}
                 >
-                  {s.badge}
+                  {s.name}
                 </button>
               ))}
             </div>
@@ -2565,36 +2633,7 @@ export default function HomePage({ onAddToCart }) {
             id="faqAccordion"
             style={{ maxWidth: "700px" }}
           >
-            {[
-              {
-                question: "When is the best time to apply ubtan ?",
-                answer: "Ubtan can be applied 15-30 mins before bath 2-3 times a week to get the maximum benefits. It is part of bath ritual and can also be applied after oil massage. Application of ubtan post massage provides great results for dry skin. Applying the Cosmic body oil followed by the Lavish body scrub not only gently exfoliates the skin but also acts as a natural polish inducing a smooth, radiant look."
-              },
-              {
-                question: "Can I use the body cleanser and scrub together ?",
-                answer: "Yes! For best results, cleanse first to remove surface impurities, then follow with the scrub to deeply exfoliate and rejuvenate your skin."
-              },
-              {
-                question: "Will RAAJSI body scrub help with ingrown hairs or keratosis pilaris ?",
-                answer: "Our exfoliating scrubs help unclog pores and remove dead skin buildup, which can minimize ingrown hairs and smooth rough, bumpy skin. Regular use may improve these conditions over time."
-              },
-              {
-                question: "Can I use RAAJSI products alongside my current skincare products ?",
-                answer: "RAAJSI products are mild and easy on skin. They do not cause skin reactions due to being natural. If you have sensitive skin or a dermatological condition, please introduce one product at a time and perform a patch test."
-              },
-              {
-                question: "Do RAAJSI products contain preservatives ?",
-                answer: "We use natural, Ayurveda-approved preservatives to ensure product longevity and safety without compromising purity."
-              },
-              {
-                question: "Does RAAJSI offer international shipping ?",
-                answer: "Yes, we ship internationally. Shipping rates and delivery times will be calculated at checkout based on your location."
-              },
-              {
-                question: "Does RAAJSI offer combo packs?",
-                answer: "Yes! We offer curated body care ritual kits for regular deliveries. Check our \"Rituals Kit\" section for current deals."
-              }
-            ].map((faq, index) => (
+            {faqs.map((faq, index) => (
               <div
                 className="border-0 border-bottom"
                 style={{ borderBottom: "2px solid #2e2e2e" }}

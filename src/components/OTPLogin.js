@@ -1,100 +1,88 @@
 "use client";
 
+import { login } from "@/lib/api/auth";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 // import { auth } from "@/lib/firebaseConfig";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { auth } from "@/lib/api/firebaseConfig";
 
-export default function OTPLogin() {
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [confirmationResult, setConfirmationResult] = useState(null);
-  const [otpSent, setOtpSent] = useState(false);
+export default function OTPLogin({ setLoginOpen }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  // Initialize Recaptcha only once
-  const setupRecaptcha = () => {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        "recaptcha-container",
-        { size: "invisible" },
-        auth
-      );
-    }
-    return window.recaptchaVerifier;
-  };
-
-  const sendOTP = async () => {
-    if (!phone) {
-      alert("Enter phone number");
-      return;
-    }
-
+  const handleLogin = async () => {
     try {
-      const appVerifier = setupRecaptcha();
-      const result = await signInWithPhoneNumber(auth, phone, appVerifier);
-      setConfirmationResult(result);
-      setOtpSent(true);
-      alert("OTP sent ✅");
-    } catch (error) {
-      console.error(error);
-      alert(error.message || "Failed to send OTP");
+      const res = await login(email, password);
+      // console.log("Login Success:", res);
+
+      if (res?.status === "success") {
+        localStorage.setItem("token", res?.data?.user?.token);
+        toast.success("Login successful 🎉");
+        setLoginOpen(false);
+      } else {
+        toast.warning(res?.message || "Something went wrong");
+      }
+    } catch (err) {
+      console.error("Login Failed:", err);
+      toast.error(err?.message || "Login failed ❌");
     }
   };
 
-  const verifyOTP = async () => {
-    if (!confirmationResult) {
-      alert("Request OTP first");
-      return;
-    }
-
-    try {
-      const userCredential = await confirmationResult.confirm(otp);
-      console.log("User logged in:", userCredential.user);
-      alert("Login successful ✅");
-    } catch (error) {
-      console.error(error);
-      alert(error.message || "Invalid OTP");
-    }
-  };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen gap-4  text-white p-4">
-      <h1 className="text-2xl font-semibold mb-4">Login with OTP</h1>
+    <div>
+      <button className="auth-close-btn" onClick={() => setLoginOpen(false)} aria-label="Close login">&times;</button>
+      <div id="authModalTitle" className="auth-title">LOGIN</div>
 
-      {!otpSent ? (
-        <>
-          <input
-            type="tel"
-            placeholder="+91 9876543210"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="px-4 py-2 rounded text-black w-full max-w-xs"
-          />
-          <button
-            onClick={sendOTP}
-            className="px-6 py-2 bg-blue-600 rounded hover:bg-blue-700 transition"
-          >
-            Send OTP
+
+      <div className="auth-subtitle">Sign-Up For Our Exclusive Launch Now and Get a 0% Discount on Products</div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleLogin(); // yaha function call karna zaroori hai
+        }}
+        className="auth-form"
+      >
+        <label className="form-label small fw-semibold mb-1">Email</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="form-control auth-input"
+          placeholder="Email Address"
+        />
+
+        <label className="form-label small fw-semibold mb-1 mt-3">Password</label>
+        <input
+          type="password"
+          placeholder="Enter password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="form-control auth-input"
+        />
+
+        {/* Agar phone number bhi lena ho to niche wala uncomment karna */}
+        {/* 
+  <label className="form-label small fw-semibold mb-1 mt-3">Phone</label>
+  <div className="d-flex align-items-stretch auth-phone-group">
+    <select className="form-select auth-country-select" defaultValue="IN">
+      <option value="IN">🇮🇳 +91</option>
+      <option value="US">🇺🇸 +1</option>
+      <option value="GB">🇬🇧 +44</option>
+    </select>
+    <input
+      type="tel"
+      className="form-control auth-input flex-grow-1"
+      placeholder="Enter Your Number"
+    />
+  </div> 
+  */}
+
+        <div className="text-center mt-4">
+          <button type="submit" className="btn auth-submit-btn">
+            Login
           </button>
-        </>
-      ) : (
-        <>
-          <input
-            type="text"
-            placeholder="Enter OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            className="px-4 py-2 rounded text-black w-full max-w-xs"
-          />
-          <button
-            onClick={verifyOTP}
-            className="px-6 py-2 bg-green-600 rounded hover:bg-green-700 transition"
-          >
-            Verify OTP
-          </button>
-        </>
-      )}
-      <div id="recaptcha-container"></div>
+        </div>
+      </form>
     </div>
   );
 }
