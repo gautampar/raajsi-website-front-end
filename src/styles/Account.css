@@ -1,0 +1,393 @@
+/* Account Dashboard Styles */
+
+.account-page {
+  padding-top: 110px; /* clear fixed navbar */
+  padding-bottom: 60px;
+}
+
+.account-heading {
+  font-family: 'Rose Velt Personal Use Only', serif;
+  font-size: 1.9rem;
+  color: #4C0A2E;
+  margin-bottom: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+.account-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+/* Sidebar */
+.account-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.account-menu a {
+  text-decoration: none;
+  color: #6B6B6B;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all .2s ease;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.account-menu a:hover {
+  color: #4C0A2E;
+  background: rgba(76, 10, 46, 0.05);
+}
+.account-menu a.active {
+  color: #4C0A2E;
+  background: rgba(76, 10, 46, 0.1);
+  position: relative;
+}
+.account-menu a.active::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 18px;
+  background: #4C0A2E;
+  border-radius: 2px;
+}
+
+/* Main content */
+.account-card { background: #fff; }
+
+.account-greeting {
+  font-size: 1rem;
+  color: #3a2b2b;
+  margin-bottom: 1.2rem;
+}
+.account-greeting .name { font-weight: 700; }
+.account-greeting a { color: #4C0A2E; text-decoration: underline; }
+
+.account-section + .account-section { margin-top: 18px; }
+
+.section-title {
+  font-family: 'Rose Velt Personal Use Only', serif !important;
+  font-size: 1.25rem;
+  color: #4C0A2E;
+  margin-bottom: 0.75rem;
+  text-shadow: none !important;
+  letter-spacing: 0.5px;
+}
+
+.order-banner {
+  background: #E3F3E5;
+  color: #2b5c35;
+  border: 1px solid #CBE8D2;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+.order-banner .cta {
+  background: #bce3c1;
+  color: #1d4526;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+
+.details-list {
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 8px;
+}
+.details-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px;
+  padding: 12px 14px;
+  align-items: center;
+  font-size: 0.95rem;
+}
+.details-row + .details-row { border-top: 1px solid rgba(0,0,0,0.06); }
+.details-label { color: #6B6B6B; }
+.details-value { color: #2c1e1e; font-weight: 600; }
+
+.address-btn {
+  display: inline-block;
+  background: #BA7E38;
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 26px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(186,126,56,0.25);
+  transition: transform .1s ease, background .2s ease, box-shadow .2s ease;
+}
+.address-btn:hover { background: #a47030; color: #fff; box-shadow: 0 6px 14px rgba(186,126,56,0.32); }
+.address-btn:active { transform: translateY(1px); }
+
+/* Address form */
+.address-form { margin-top: 6px; max-width: 520px; }
+.address-form .form-group { margin-bottom: 16px; }
+.address-form label {
+  display: block;
+  font-size: 0.9rem;
+  color: #6B6B6B;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.address-form .form-control {
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: #f8f5f3;
+  color: #2c1e1e;
+  border-radius: 8px;
+  height: 48px;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+  font-size: 16px;
+}
+.address-form .form-control:focus {
+  border-color: #4C0A2E;
+  box-shadow: 0 0 0 3px rgba(76,10,46,0.08);
+  background: #fff;
+}
+.address-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Right feature card */
+.feature-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.8) contrast(0.95);
+}
+.feature-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(76,10,46,0.1) 0%, rgba(0,0,0,0.35) 100%);
+}
+.feature-badge {
+  position: absolute;
+  left: 22px;
+  bottom: 48px;
+  font-weight: 800;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  color: #ffb762;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.5);
+}
+.feature-logo {
+  position: absolute;
+  left: 22px;
+  bottom: 96px;
+  width: 64px;
+  height: 64px;
+}
+
+/* Sidebar flex properties */
+.account-sidebar {
+  flex: 0 0 220px;
+  background: #fff;
+  border-right: 1px solid rgba(0,0,0,0.08);
+  padding-right: 1rem;
+}
+
+/* Main content flex properties */
+.account-wrapper main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Feature card flex properties */
+.feature-card {
+  flex: 0 0 520px;
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  height: 540px;
+  background: #f7efe6;
+}
+
+@media (max-width: 1200px) {
+  .account-sidebar { flex: 0 0 200px; }
+  .feature-card { flex: 0 0 420px; height: 480px; }
+}
+
+@media (max-width: 1024px) {
+  .account-sidebar { flex: 0 0 180px; }
+  .feature-card { flex: 0 0 360px; height: 420px; }
+}
+
+@media (max-width: 992px) {
+  .account-wrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .account-sidebar {
+    flex: none;
+    width: 100%;
+    border-right: none;
+    padding-right: 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding-bottom: 1rem;
+  }
+  .account-menu {
+    flex-direction: row;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .account-menu li {
+    flex-shrink: 0;
+  }
+  .account-menu a {
+    white-space: nowrap;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+  .account-menu a.active::before {
+    display: none;
+  }
+  .account-wrapper main {
+    flex: none;
+    width: 100%;
+  }
+  .feature-card {
+    flex: none;
+    width: 100%;
+    height: 300px;
+  }
+  /* Mobile font enforcement and remove text shadows */
+  .section-title { font-family: 'Rose Velt Personal Use Only', serif !important; text-shadow: none !important; }
+  .feature-badge { text-shadow: none !important; }
+}
+
+@media (max-width: 768px) {
+  .account-page {
+    padding-top: 90px;
+    padding-bottom: 40px;
+  }
+  .account-wrapper {
+    gap: 16px;
+  }
+  .account-heading {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+  .feature-card {
+    height: 250px;
+  }
+  
+  /* Typography improvements */
+  .account-greeting {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .section-title-1 {
+    font-size: 1.3rem !important;
+  }
+  
+  /* Form improvements for mobile */
+  .address-form {
+    max-width: 100%;
+  }
+  .address-form .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .address-form .form-group {
+    margin-bottom: 20px;
+  }
+  .address-form .form-control {
+    height: 52px;
+    padding: 14px 16px;
+    font-size: 16px;
+  }
+  
+  /* Account details improvements */
+  .details-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 16px;
+  }
+  .details-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .details-value {
+    font-size: 1rem;
+  }
+  
+  /* Button improvements */
+  .address-btn {
+    width: 100%;
+    padding: 14px 22px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .account-page {
+    padding-top: 100px;
+    padding-bottom: 30px;
+  }
+  .account-wrapper {
+    gap: 12px;
+  }
+  .account-heading {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+  }
+  .feature-card {
+    height: 400px;
+    border-radius: 16px;
+  }
+  
+  /* Typography for very small screens */
+  .account-greeting {
+    font-size: 0.9rem;
+  }
+  .section-title-1 {
+    font-size: 1.2rem !important;
+  }
+  
+  /* Navigation improvements */
+  .account-menu {
+    gap: 6px;
+  }
+  .account-menu a {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+  
+  /* Form improvements for small screens */
+  .address-form .form-control {
+    height: 50px;
+    padding: 12px 14px;
+  }
+  .address-form .form-group {
+    margin-bottom: 18px;
+  }
+  
+  /* Order banner improvements */
+  .order-banner {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+  .order-banner .cta {
+    display: block;
+    margin-bottom: 4px;
+    margin-right: 0;
+  }
+}

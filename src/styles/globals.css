@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+.home-hero h2 {
+  font-family: 'Georgia', serif;
+  color: #f5d46e;
+}
+
+.home-hero p {
+  color: #fff;
+}
+
+.scroll-icon {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, -10px);
+  }
+}
+.half-card {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+}
+
+.full-card {
+  width: 100%;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 20px;
+}
+.left-text-strip {
+  text-align: left !important;
+  padding-left: 1rem !important;
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+.accordion-button::after {
+  display: none !important;
+}
+@font-face {
+  font-family: 'Rose Velt Personal Use Only';
+  src: url('/fonts/Rose Velt Personal Use Only.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Avenir';
+  src: url('/fonts/Avenir/Avenir-Regular.ttf') format('truetype');
+}
+
+.custom-heading {
+  font-family: 'Georgia', serif !important;
+}
+
+/* Prevent horizontal scrolling */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Home hero responsive tweaks */
+@media (max-width: 768px) {
+  .home-hero {
+    min-height: 90vh !important;
+    height: 90svh !important;
+  }
+}
+@media (max-width: 480px) {
+  .home-hero {
+    min-height: 85vh !important;
+    height: 85svh !important;
+  }
+  
+  .half-card {
+    height: 180px;
+    border-radius: 12px;
+  }
+  
+  .full-card {
+    height: 260px;
+    border-radius: 15px;
+  }
+  
+  .left-text-strip {
+    padding-left: 0.75rem !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+  }
+}
+
+.our-section { padding: 62px 0; margin-right: 112px;}
+.our-row { display: flex; gap: 96px; align-items: center;}
+.our-row .our-img { max-width: 787px; width: 100%;}
+.our-row .our-content { max-width: 445px; width: 100%;}
+@media (max-width: 768px) {
+  .our-section {
+    padding: 30px 15px;   /* kam padding */
+    margin-right: 0;      /* margin hata diya */
+  }
+
+  .our-row {
+    flex-direction: column; /* row → column */
+    gap: 30px;              /* chhota gap */
+    text-align: center;     /* content center */
+  }
+
+  .our-row .our-img {
+    max-width: 100%;        /* image full width */
+  }
+
+  .our-row .our-content {
+    max-width: 100%;        /* content full width */
+  }
+}
+
+.step-section { background-image: url('../../public/assets/bg1.svg'); background-size: cover; background-repeat: no-repeat; padding-top: 60px;}
+.step-title { display: flex; justify-content: center; align-items: center; gap: 22px; padding-bottom: 54px;}
+.step-section-title { font-family: 'Rose Velt Personal Use Only'; font-weight: 400; font-size: 32px; text-align: center; color: #4C0A2E; margin: 0;}
+.step-section .step-box { max-width: 1205px; width: 100%; margin: 0 auto; border-radius: 24px 24px 0 0; background: #FFFFFF; padding: 50px 109px 0 91px;}
