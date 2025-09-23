@@ -45,3 +45,12 @@ export const getAllProducts = async () => {
     throw error.response?.data || error.message;
   }
 };
+
+export const getFeaturedProducts = async () => {
+  try {
+    const response = await api.get("product/get/featured"); 
+    return response.data; 
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};

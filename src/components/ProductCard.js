@@ -9,7 +9,6 @@ const ProductCard = ({
   showShloka = false,
   showTag = true,
   cardHeight = "350px",
-  onAddToCart = null,
   isMobile = false
 }) => {
   const [isTranslated, setIsTranslated] = useState(false);
@@ -190,9 +189,7 @@ const ProductCard = ({
               }}>
                 {isTranslated ? englishText : (
                   <>
-                    मुग्धे! धानुष्कता केयमपूर्वा त्वयि दृश्यते{" "}
-                    <br />
-                    यया विध्यसि चेतांसि गुणैरेव न सायकैः ॥
+                  {product?.careHandling}
                   </>
                 )}
               </div>
@@ -373,7 +370,7 @@ const ProductCard = ({
         }
       `}</style>
       <div className={`col-12 col-md-6 d-flex flex-column align-items-center ${className}`} style={style}>
-        <div className="card w-100 product-card-desktop">
+        <div className="card w-100 product-card-desktop" style={{backgroundImage: "url(" + product.productImageUrl + ""}}>
           {/* Shloka - Optional */}
           {showShloka && (
             <div className="shloka-desktop" onClick={toggleTranslation}>
@@ -395,9 +392,7 @@ const ProductCard = ({
               }}>
                 {isTranslated ? englishText : (
                   <>
-                    मुग्धे! धानुष्कता केयमपूर्वा त्वयि दृश्यते{" "}
-                    <br />
-                    यया विध्यसि चेतांसि गुणैरेव न सायकैः ॥
+                 {product?.careHandling}
                   </>
                 )}
               </div>
@@ -417,10 +412,10 @@ const ProductCard = ({
           {/* Content at bottom */}
           <div className="content-desktop">
             <h5 className="title-desktop">
-              {product.title || product.name}
+              {product?.productTitle }
             </h5>
             <p className="desc-desktop">
-              {product.desc || product.description}
+              {product?.productDescription }
             </p>
           </div>
         </div>
@@ -428,7 +423,7 @@ const ProductCard = ({
         {/* Button & Price Section */}
         <div className="d-flex justify-content-between w-100 px-2 px-md-4 mt-2">
           <Link
-            href={`/product/${product.id || '1'}`}
+            href={`/product/${product._id || '1'}`}
             className="btn btn-sm d-flex align-items-center justify-content-center"
             style={{
               backgroundColor: "#BA7E38",
