@@ -54,3 +54,12 @@ export const getFeaturedProducts = async () => {
     throw error.response?.data || error.message;
   }
 };
+
+export const getProductById = async (productId) => {
+  try {
+    const response = await api.get(`product/${productId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
