@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./featured.module.css"; // optional custom styling
 import ProductCard from "../../components/ProductCard";
+import { getFeaturedProducts } from "@/lib/api/auth";
+import { toast } from "react-toastify";
 
 export default function FeaturedProducts() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -169,6 +171,22 @@ export default function FeaturedProducts() {
   ];
 
   const totalSlides = Math.ceil(testimonials.length / 3);
+  const [featured, setFeatured] = useState([]);
+
+   useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const data = await getFeaturedProducts();
+        setFeatured(data?.data?.products || []);
+        toast.success("Featured products loaded ✅");
+      } catch (err) {
+        console.error(err);
+        toast.error(err?.message || "Failed to load featured ❌");
+      } 
+    };
+
+    fetchFeatured();
+  }, []);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % totalSlides);
@@ -420,9 +438,9 @@ export default function FeaturedProducts() {
               {/* Desktop Grid Layout */}
               {!isMobile && (
                 <div className="row gy-4">
-                  {featuredProducts.map((product, index) => (
+                  {featured.map((product) => (
                     <ProductCard
-                      key={product.id}
+                      key={product._id}
                       product={product}
                       showShloka={true}
                       showTag={true}

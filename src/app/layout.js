@@ -1,10 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import "react-toastify/dist/ReactToastify.css";
 import '../styles/globals.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BootstrapProvider from '../components/BootstrapProvider';
 import { Noto_Serif_Devanagari } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
 
 const devanagariFont = Noto_Serif_Devanagari({
   subsets: ['devanagari', 'latin'],
@@ -25,6 +27,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${devanagariFont.variable}`}>
+        <ToastContainer position="top-right" autoClose={3000} />
         <BootstrapProvider>
           <Navbar />
           {children}
